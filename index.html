@@ -7,6 +7,79 @@
      .navbar{
     color: white;
     }
+    #cityd{
+        float:right;
+        clear:right;
+    }
+#cityse{
+    float:left;
+    clear:left;
+    text-align: center;
+}
+#info{
+    float:right;
+    clear:right;
+}
+#onedate{
+    float:left;
+    clear:left;
+}
+#onetemp{
+    float:left;
+    clear:left;
+}
+#onehum{
+    float:left;
+    clear:left;
+}
+#twodate{
+    float:left;
+    clear:left;
+}
+#twotemp{
+    float:left;
+    clear:left;
+}
+#twohum{
+    float:left;
+    clear:left;
+}
+#threedate{
+    float:left;
+    clear:left;
+}
+#threetemp{
+    float:left;
+    clear:left;
+}
+#threehum{
+    float:left;
+    clear:left;
+}
+#fourdate{
+    float:left;
+    clear:left;
+}
+#fourtemp{
+    float:left;
+    clear:left;
+}
+#fourhum{
+    float:left;
+    clear:left;
+}
+#fivedate{
+    float:left;
+    clear:left;
+}
+#fivetemp{
+    float:left;
+    clear:left;
+}
+#fivehum{
+    float:left;
+    clear:left;
+}
 </Style>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     </head>
@@ -14,20 +87,74 @@
         <nav class="navbar navbar-dark bg-dark"
         <a class="navbar-brand" href="#">Weather Dashboard</a></nav>
         <div class ="container">
-<div class = "row">
+<div class = "row" id="cityse">
     <div class="col-lg-8 col-sm-12 mx-auto">
         Search for a City: <br />
-        <input type="text" id="citys"><br /></div>
-        <button id="btns">SEARCH</button>
     </div>
+    <div class="col-lg-8 col-sm-12 mx-auto">
+    <div class = "row">
+        <input type="text" id="citys"><br /><div id="hist"></div><br /></div>
+    </div></div>
+    <div class="col-lg-8 col-sm-12 mx-auto">
+    <div class = "row">
+        <button id="btns">SEARCH</button>
+    </div></div>
 </div>
-        </div>
 
-        <script type="text/javascript">
+<div class ="container" id="info">
+    <div class = "row">
+        <div class="col-lg-8 col-sm-12 mx-auto">
+            <div id="cityt"> </div><div id="cityd"> </div>
+            <div class="row classone" id="temp"></div>
+            <div class="row classone" id="hum"></div>
+            <div class="row classone" id="ws"></div>
+            <div class="row classone" id="press"></div>
+        </div>
+    </div>
+    </div>
+    <div class ="container">
+        <div class = "row">
+            <div class="col-lg-2">
+                <div id="onedate"></div>
+                <div id="onetemp"></div>
+                <div id="onehum"></div>
+</div>
+<div class="col-lg-2">
+    <div id="twodate"></div>
+    <div id="twotemp"></div>
+    <div id="twohum"></div>
+</div>
+<div class="col-lg-2">
+    <div id="threedate"></div>
+    <div id="threetemp"></div>
+    <div id="threehum"></div>
+</div>
+<div class="col-lg-2">
+    <div id="fourdate"></div>
+    <div id="fourtemp"></div>
+    <div id="fourhum"></div>
+</div>
+<div class="col-lg-2">
+    <div id="fivedate"></div>
+    <div id="fivetemp"></div>
+    <div id="fivehum"></div>
+</div>
+</div></div>
+<script type="text/javascript">
+
+   var today = new Date();
+    var time = today.getHours();
+var dd = String(today.getDate()).padStart(2, '0');
+var mm = String(today.getMonth() + 1).padStart(2, '0');
+var yyyy = today.getFullYear();
+today = mm + '/' + dd + '/' + yyyy;
+console.log(today)
+
+
 $('#btns').on("click", function(event) {
     var key = "&APPID=92eee64d40fde21027a626b60236fbb7";
 var city = document.getElementById('citys').value;
-console.log(city)
+console.log(city);
 var queryURL = "https://api.openweathermap.org/data/2.5/weather?q="+city+",US"+key;
 console.log(queryURL);
     
@@ -36,8 +163,70 @@ console.log(queryURL);
   method: "GET"
 }).then(function(response){;
 console.log(response);
-$('#text').append(response+"<br />");
-})});
+var heater=response.main.temp;
+var heat = heater-273.25;
+console.log(heat);
+document.getElementById("cityt").innerHTML = (city);
+document.getElementById("cityd").innerHTML = ("&nbsp;"+today);
+document.getElementById("temp").innerHTML= (heat+"&nbsp;"+"C");
+document.getElementById("hum").innerHTML=(response.main.humidity+"%");
+document.getElementById("ws").innerHTML=(response.wind.speed+"MPH");
+document.getElementById("press").innerHTML=(response.main.pressure/1000+"ATMs");
+document.getElementById('hist').innerHTML=(city)});
+
+var fqueryURL='https://api.openweathermap.org/data/2.5/forecast?q='+city+',US'+key;
+$.ajax({
+  url: fqueryURL,
+  method: "GET"
+}).then(function(response){;
+console.log(response);
+var today = new Date();
+    var time = today.getHours();
+var dd = (String(today.getDate()).padStart(2, '0'))+1;
+var mm = String(today.getMonth() + 1).padStart(2, '0');
+var yyyy = today.getFullYear();
+today = mm + '/' + dd + '/' + yyyy;
+document.getElementById("onedate").innerHTML=today;
+console.log(response.list[1].main.temp);
+document.getElementById("onetemp").innerHTML='temperature:'+response.list[0].main.temp-273.25+' C';
+document.getElementById('onehum').innerHTML='humidity:'+response.list[0].main.humidity+'%';
+var today = new Date();
+    var time = today.getHours();
+var dd = (String(today.getDate()).padStart(2, '0'))+2;
+var mm = String(today.getMonth() + 1).padStart(2, '0');
+var yyyy = today.getFullYear();
+today = mm + '/' + dd + '/' + yyyy;
+document.getElementById('twodate').innerHTML=today;
+document.getElementById('twotemp').innerHTML='temperature:'+response.list[1].main.temp-273.25+' C';
+document.getElementById('twohum').innerHTML='humidity:'+response.list[1].main.humidity+'%';
+var today = new Date();
+    var time = today.getHours();
+var dd = (String(today.getDate()).padStart(2, '0'))+3;
+var mm = String(today.getMonth() + 1).padStart(2, '0');
+var yyyy = today.getFullYear();
+today = mm + '/' + dd + '/' + yyyy;
+document.getElementById('threedate').innerHTML=today;
+document.getElementById('threetemp').innerHTML='temperature:'+response.list[2].main.temperature-273.25+' C';
+document.getElementById('threehum').innerHTML='humidity:'+response.list[2].main.humidity+'%';
+var today = new Date();
+    var time = today.getHours();
+var dd = (String(today.getDate()).padStart(2, '0'))+4;
+var mm = String(today.getMonth() + 1).padStart(2, '0');
+var yyyy = today.getFullYear();
+today = mm + '/' + dd + '/' + yyyy;
+document.getElementById('fourdate').innerHTML=today;
+document.getElementById('fourtemp').innerHTML='temperature:'+response.list[3].main.temperature-273.25+' C';
+document.getElementById('fourhum').innerHTML='humidity:'+response.list[3].main.humidity+'%';
+var today = new Date();
+    var time = today.getHours();
+var dd = (String(today.getDate()).padStart(2, '0'))+5;
+var mm = String(today.getMonth() + 1).padStart(2, '0');
+var yyyy = today.getFullYear();
+today = mm + '/' + dd + '/' + yyyy;
+document.getElementById('fivedate').innerHTML=today;
+document.getElementById('fivetemp').innerHTML='temperature:'+response.list[4].temperature-273.25+' C';
+document.getElementById('fourhum').innerHTML='humidity:'+response.list[4].humidity+'%';
+});});
         </script>
     </body>
-</html>
+    </html>
