@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang=eng>
+    <head>
+        <Title>Weather Dashboard</Title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<Style>
+     .navbar{
+    color: white;
+    }
+</Style>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <nav class="navbar navbar-dark bg-dark"
+        <a class="navbar-brand" href="#">Weather Dashboard</a></nav>
+        <div class ="container">
+<div class = "row">
+    <div class="col-lg-8 col-sm-12 mx-auto">
+        Search for a City: <br />
+        <input type="text" id="citys"><br /></div>
+        <button id="btns">SEARCH</button>
+    </div>
+</div>
+        </div>
+
+        <script type="text/javascript">
+$('#btns').on("click", function(event) {
+    var key = "&APPID=92eee64d40fde21027a626b60236fbb7";
+var city = document.getElementById('citys').value;
+console.log(city)
+var queryURL = "https://api.openweathermap.org/data/2.5/weather?q="+city+",US"+key;
+console.log(queryURL);
+    
+    $.ajax({
+  url: queryURL,
+  method: "GET"
+}).then(function(response){;
+console.log(response);
+$('#text').append(response+"<br />");
+})});
+        </script>
+    </body>
+</html>
